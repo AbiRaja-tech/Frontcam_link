@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Front Camera Picture</title>
+  <script>
+    function openCamera() {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+        .then(function(stream) {
+          var video = document.getElementById('camera-preview');
+          video.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.log('Error accessing the camera: ', error);
+        });
+    }
+
+    function capturePicture() {
+      var video = document.getElementById('camera-preview');
+      var canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      var context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      var image = canvas.toDataURL('image/png');
+      console.log('Captured picture:', image);
+      // You can perform additional actions with the captured image,
+      // such as saving it to the server or displaying it to the user.
+    }
+  </script>
+</head>
+<body>
+  <h1>Front Camera Picture</h1>
+  <a href="#" onclick="openCamera();">Open Camera</a>
+  <br>
+  <video id="camera-preview" autoplay></video>
+  <br>
+  <button onclick="capturePicture();">Capture Picture</button>
+</body>
+</html>
